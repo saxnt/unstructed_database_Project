@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LearnVerse — Sign In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,800;1,300;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0e0e10;
+      --bg2: #15151a;
+      --bg3: #1c1c24;
+      --border: #2a2a38;
+      --text: #e8e8f0;
+      --text2: #8888a8;
+      --text3: #45455a;
+      --accent: #c8f060;
+      --accent2: #7c6cfa;
+      --accent3: #f06090;
+      --font-display: 'Fraunces', serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 14px;
+      display: flex;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── LEFT PANEL ── */
+    .left-panel {
+      flex: 1;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 48px 56px;
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    /* animated grid background */
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(124,108,250,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,108,250,0.06) 1px, transparent 1px);
+      background-size: 48px 48px;
+      animation: gridDrift 20s linear infinite;
+    }
+
+    @keyframes gridDrift {
+      0%   { background-position: 0 0; }
+      100% { background-position: 48px 48px; }
+    }
+
+    /* glow orbs */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+    .orb-1 { width: 420px; height: 420px; background: rgba(124,108,250,0.18); top: -80px; left: -80px; animation: orbFloat 8s ease-in-out infinite; }
+    .orb-2 { width: 320px; height: 320px; background: rgba(200,240,96,0.10); bottom: 40px; right: -40px; animation: orbFloat 11s ease-in-out infinite reverse; }
+    .orb-3 { width: 200px; height: 200px; background: rgba(240,96,144,0.08); bottom: 200px; left: 100px; animation: orbFloat 14s ease-in-out infinite 2s; }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50%       { transform: translateY(-24px) scale(1.04); }
+    }
+
+    /* logo */
+    .panel-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .logo-icon { color: var(--accent); font-size: 26px; }
+    .logo-text  { font-family: var(--font-display); font-weight: 800; font-size: 22px; letter-spacing: -0.5px; }
+
+    /* hero copy */
+    .panel-hero {
+      position: relative;
+      z-index: 1;
+      animation: fadeUp 0.6s ease 0.15s both;
+    }
+
+    .panel-tagline {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -2px;
+      margin-bottom: 18px;
+    }
+
+    .panel-tagline em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .panel-desc {
+      color: var(--text2);
+      font-size: 15px;
+      line-height: 1.7;
+      max-width: 380px;
+    }
+
+    /* course preview pills */
+    .panel-pills {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      animation: fadeUp 0.6s ease 0.3s both;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: var(--text2);
+      width: fit-content;
+      backdrop-filter: blur(4px);
+    }
+
+    .pill-icon { font-size: 16px; }
+    .pill strong { color: var(--text); font-weight: 600; }
+
+    /* stats row */
+    .panel-stats {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 32px;
+      animation: fadeUp 0.6s ease 0.45s both;
+    }
+
+    .stat { text-align: left; }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -1px;
+    }
+    .stat-lbl { font-size: 11.5px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+    /* ── RIGHT PANEL ── */
+    .right-panel {
+      width: 460px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 48px;
+      overflow-y: auto;
+    }
+
+    .auth-box {
+      width: 100%;
+      max-width: 360px;
+      animation: fadeUp 0.5s ease 0.1s both;
+    }
+
+    .auth-heading {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 6px;
+    }
+
+    .auth-sub {
+      color: var(--text2);
+      font-size: 13.5px;
+      margin-bottom: 32px;
+    }
+
+    .auth-sub a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .auth-sub a:hover { text-decoration: underline; }
+
+    /* error banner */
+    .error-banner {
+      background: rgba(240,96,144,0.1);
+      border: 1px solid rgba(240,96,144,0.3);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--accent3);
+      font-size: 13px;
+      margin-bottom: 18px;
+      display: none;
+      animation: shake 0.3s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25%       { transform: translateX(-6px); }
+      75%       { transform: translateX(6px); }
+    }
+
+    /* form */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 16px;
+    }
+
+    label {
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text2);
+      font-weight: 600;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text3);
+      font-size: 15px;
+      pointer-events: none;
+      transition: color 0.2s;
+    }
+
+    input {
+      width: 100%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 13px 11px 40px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 3px rgba(124,108,250,0.12);
+    }
+
+    input:focus + .input-icon,
+    .input-wrap:focus-within .input-icon { color: var(--accent2); }
+
+    /* password toggle */
+    .pw-toggle {
+      position: absolute;
+      right: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text3);
+      cursor: pointer;
+      font-size: 15px;
+      padding: 2px;
+      transition: color 0.2s;
+    }
+
+    .pw-toggle:hover { color: var(--text2); }
+
+    /* remember + forgot */
+    .form-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+    }
+
+    .checkbox-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text2);
+    }
+
+    .checkbox-wrap input[type="checkbox"] {
+      width: 16px; height: 16px;
+      padding: 0;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .forgot-link {
+      font-size: 13px;
+      color: var(--accent2);
+      text-decoration: none;
+    }
+
+    .forgot-link:hover { text-decoration: underline; }
+
+    /* submit */
+    .btn-submit {
+      width: 100%;
+      background: var(--accent);
+      color: #0e0e10;
+      border: none;
+      border-radius: 10px;
+      padding: 13px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-submit::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+    }
+
+    .btn-submit:hover { opacity: 0.92; transform: translateY(-1px); }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text3);
+      font-size: 12px;
+      margin-bottom: 18px;
+    }
+
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* demo accounts */
+    .demo-accounts {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .demo-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+      width: 100%;
+      text-align: left;
+    }
+
+    .demo-btn:hover { border-color: var(--accent2); background: rgba(124,108,250,0.08); }
+
+    .demo-role {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .demo-info { flex: 1; }
+    .demo-name { font-size: 13px; font-weight: 600; color: var(--text); }
+    .demo-email { font-size: 11.5px; color: var(--text3); }
+
+    .demo-arrow { color: var(--text3); font-size: 14px; }
+
+    /* loading spinner */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(0,0,0,0.3);
+      border-top-color: #0e0e10;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: none;
+    }
+
+    /* animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* responsive */
+    @media (max-width: 860px) {
+      .left-panel { display: none; }
+      .right-panel { width: 100%; padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LEFT DECORATIVE PANEL -->
+<div class="left-panel">
+  <div class="grid-bg"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="panel-logo">
+    <span class="logo-icon">◈</span>
+    <span class="logo-text">LearnVerse</span>
+  </div>
+
+  <div class="panel-hero">
+    <h1 class="panel-tagline">
+      Learn without<br/><em>limits.</em>
+    </h1>
+    <p class="panel-desc">
+      Access hundreds of courses taught by world-class instructors.
+      Track your progress, earn certificates, and grow your skills.
+    </p>
+  </div>
+
+  <div class="panel-pills">
+    <div class="pill"><span class="pill-icon">💻</span> <span><strong>React Bootcamp</strong> — 4.9 ★ · 1.2k students</span></div>
+    <div class="pill"><span class="pill-icon">📊</span> <span><strong>Python for Data Science</strong> — 4.8 ★ · 980 students</span></div>
+    <div class="pill"><span class="pill-icon">🎨</span> <span><strong>UI/UX Masterclass</strong> — 4.7 ★ · 750 students</span></div>
+  </div>
+
+  <div class="panel-stats">
+    <div class="stat">
+      <div class="stat-num">8+</div>
+      <div class="stat-lbl">Courses</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">10+</div>
+      <div class="stat-lbl">Students</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">20+</div>
+      <div class="stat-lbl">Enrollments</div>
+    </div>
+  </div>
+</div>
+
+<!-- RIGHT AUTH PANEL -->
+<div class="right-panel">
+  <div class="auth-box">
+
+    <h2 class="auth-heading">Welcome back</h2>
+    <p class="auth-sub">
+      Don't have an account? <a href="register.html">Sign up free →</a>
+    </p>
+
+    <div class="error-banner" id="errorBanner">
+      ✕ &nbsp;Invalid email or password. Please try again.
+    </div>
+
+    <form id="loginForm" onsubmit="handleLogin(event)" novalidate>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <div class="input-wrap">
+          <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required/>
+          <span class="input-icon">✉</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrap">
+          <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password" required/>
+          <span class="input-icon">🔒</span>
+          <button type="button" class="pw-toggle" id="pwToggle" onclick="togglePw()" title="Show/hide password">👁</button>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="checkbox-wrap">
+          <input type="checkbox" id="remember"/> Remember me
+        </label>
+        <a href="#" class="forgot-link">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn-submit" id="loginBtn">
+        <div class="spinner" id="spinner"></div>
+        <span id="btnText">Sign In</span>
+        <span id="btnArrow">→</span>
+      </button>
+    </form>
+
+    <div class="divider">or sign in with a demo account</div>
+
+    <div class="demo-accounts">
+      <button class="demo-btn" onclick="fillDemo('admin@learnverse.com','admin123')">
+        <span class="demo-role">🛡</span>
+        <div class="demo-info">
+          <div class="demo-name">Admin</div>
+          <div class="demo-email">admin@learnverse.com</div>
+        </div>
+        <span class="demo-arrow">→</span>
+      </button>
+      <button class="demo-btn" onclick="fillDemo('instructor@learnverse.com','instructor123')">
+        <span class="demo-role">👩‍🏫</span>
+        <div class="demo-info">
+          <div class="demo-name">Instructor</div>
+          <div class="demo-email">instructor@learnverse.com</div>
+        </div>
+        <span class="demo-arrow">→</span>
+      </button>
+      <button class="demo-btn" onclick="fillDemo('student@learnverse.com','student123')">
+        <span class="demo-role">🎓</span>
+        <div class="demo-info">
+          <div class="demo-name">Student</div>
+          <div class="demo-email">student@learnverse.com</div>
+        </div>
+        <span class="demo-arrow">→</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Demo users (simulates MongoDB users collection)
+  const USERS = [
+    { email: 'admin@learnverse.com',      password: 'admin123',       name: 'Admin User',     role: 'admin' },
+    { email: 'instructor@learnverse.com', password: 'instructor123',  name: 'Dr. Sarah Khan', role: 'instructor' },
+    { email: 'student@learnverse.com',    password: 'student123',     name: 'Ali Hassan',     role: 'student' }
+  ];
+
+  function fillDemo(email, password) {
+    document.getElementById('email').value = email;
+    document.getElementById('password').value = password;
+    document.getElementById('email').focus();
+  }
+
+  function togglePw() {
+    const inp = document.getElementById('password');
+    const btn = document.getElementById('pwToggle');
+    if (inp.type === 'password') { inp.type = 'text';     btn.textContent = '🙈'; }
+    else                         { inp.type = 'password'; btn.textContent = '👁';  }
+  }
+
+  function handleLogin(e) {
+    e.preventDefault();
+    const email    = document.getElementById('email').value.trim().toLowerCase();
+    const password = document.getElementById('password').value;
+    const banner   = document.getElementById('errorBanner');
+    const btn      = document.getElementById('loginBtn');
+    const spinner  = document.getElementById('spinner');
+    const btnText  = document.getElementById('btnText');
+    const btnArrow = document.getElementById('btnArrow');
+
+    // Hide previous error
+    banner.style.display = 'none';
+
+    // Show loading
+    btn.disabled = true;
+    spinner.style.display = 'block';
+    btnText.textContent = 'Signing in…';
+    btnArrow.style.display = 'none';
+
+    // Simulate async auth (300ms)
+    setTimeout(() => {
+      const user = USERS.find(u => u.email === email && u.password === password);
+
+      if (user) {
+        // Save session
+        sessionStorage.setItem('lv_user', JSON.stringify(user));
+        btnText.textContent = '✓ Success!';
+        spinner.style.display = 'none';
+
+        setTimeout(() => { window.location.href = 'index.html'; }, 500);
+      } else {
+        btn.disabled = false;
+        spinner.style.display = 'none';
+        btnText.textContent = 'Sign In';
+        btnArrow.style.display = 'inline';
+        banner.style.display = 'block';
+        // re-trigger shake animation
+        banner.style.animation = 'none';
+        banner.offsetWidth; // reflow
+        banner.style.animation = '';
+      }
+    }, 320);
+  }
+
+  // If already logged in, go straight to dashboard
+  if (sessionStorage.getItem('lv_user')) {
+    window.location.href = 'index.html';
+  }
+</script>
+</body>
+</html>
